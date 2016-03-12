@@ -117,12 +117,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
 
-        mMap.addMarker(new MarkerOptions().position(mLatLng).title("current location"));
+        final MarkerOptions marker = new MarkerOptions().position(mLatLng).title("current location");
+        mMap.addMarker(marker);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 12));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                mMap.clear();
+                String title = mFocusView.equals((EditText) findViewById(R.id.start)) ?
+                        "Start" : "To";
+                marker.position(latLng).title(title);
+                mMap.addMarker(marker);
                 refreshLocation(latLng);
             }
         });
