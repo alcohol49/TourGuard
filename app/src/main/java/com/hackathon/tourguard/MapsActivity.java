@@ -3,6 +3,8 @@ package com.hackathon.tourguard;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -12,8 +14,10 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,16 +26,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     private static final String TAG = "MapsActivity";
-
     private static int sHourOfDay = -1;
     private static int sMinute = -1;
 
+    private GoogleMap mMap;
+    private LatLng mLatLng;
+    private EditText mFocusView;
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
@@ -53,7 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d(TAG, "get time: " + hourOfDay + " " + minute);
             sHourOfDay = hourOfDay;
             sMinute = minute;
-            ((MapsActivity) getActivity()).refresh();
+            ((MapsActivity) getActivity()).refreshTime();
         }
     }
 
@@ -69,6 +77,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Button invisible = (Button) findViewById(R.id.invisible);
         invisible.setBackgroundColor(Color.TRANSPARENT);
         invisible.setTextColor(Color.TRANSPARENT);
+
+        EditText start = (EditText) findViewById(R.id.start);
+        start.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mFocusView = (EditText) getCurrentFocus();
+            }
+        });
+
+        EditText to = (EditText) findViewById(R.id.to);
+        to.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mFocusView = (EditText) getCurrentFocus();
+            }
+        });
+
     }
 
     /**
@@ -86,17 +111,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        LatLng sydney = new LatLng(location.getLatitude(), location.getLongitude());
+        mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Start location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.addMarker(new MarkerOptions().position(mLatLng).title("Start location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLng));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                refreshLocation(latLng);
+            }
+        });
     }
 
-    public void refresh() {
-        Log.d(TAG, "refresh");
+    public void refreshLocation(LatLng latLng) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> address = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            mFocusView.setText(address.get(0).getAddressLine(0));
+        } catch (IOException e) {
+            Toast.makeText(this, "IOException", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void refreshTime() {
+        Log.d(TAG, "refreshTime");
         TextView view = (TextView) findViewById(R.id.time);
         view.setText(sHourOfDay + ":" + sMinute);
+    }
+
+    public void current(View view) {
+        Log.d(TAG, "button current");
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 10));
     }
 
     public void invisible(View view) {

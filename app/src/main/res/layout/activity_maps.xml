@@ -17,11 +17,13 @@
             android:gravity="center"
             android:text="Start: "/>
         <EditText
+            android:id="@+id/start"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="current" />
         <Button
+            android:onClick="current"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -39,6 +41,7 @@
             android:gravity="center"
             android:text="To: "/>
         <EditText
+            android:id="@+id/to"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
