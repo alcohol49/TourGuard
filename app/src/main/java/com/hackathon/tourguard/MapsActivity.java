@@ -241,7 +241,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(new Intent(this, NearbySituation.class));
     }
 
-    public void ok() {
+    public void startGuard(View view) {
         finish();
     }
 }
