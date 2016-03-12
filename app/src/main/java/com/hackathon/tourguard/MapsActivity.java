@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -146,6 +147,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             start.setText(address.get(0).getAddressLine(0));
         } catch (IOException e) {
             Toast.makeText(this, "IOException", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_ok:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
