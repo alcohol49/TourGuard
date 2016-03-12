@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -79,6 +80,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         invisible.setTextColor(Color.TRANSPARENT);
 
         EditText start = (EditText) findViewById(R.id.start);
+        start.setInputType(InputType.TYPE_NULL);
         start.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -87,6 +89,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         EditText to = (EditText) findViewById(R.id.to);
+        to.setInputType(InputType.TYPE_NULL);
         to.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -114,8 +117,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
 
-        mMap.addMarker(new MarkerOptions().position(mLatLng).title("Start location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLng));
+        mMap.addMarker(new MarkerOptions().position(mLatLng).title("current location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 12));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -123,6 +126,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 refreshLocation(latLng);
             }
         });
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> address = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
+            EditText start = (EditText) findViewById(R.id.start);
+            start.setText(address.get(0).getAddressLine(0));
+        } catch (IOException e) {
+            Toast.makeText(this, "IOException", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void refreshLocation(LatLng latLng) {
@@ -143,7 +155,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void current(View view) {
         Log.d(TAG, "button current");
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 12));
     }
 
     public void invisible(View view) {
