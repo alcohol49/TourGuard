@@ -127,8 +127,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-
         final MarkerOptions marker = new MarkerOptions().position(mLatLng).title("current location");
         mMap.addMarker(marker);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 12));
@@ -165,8 +163,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_ok:
-                finish();
+            case R.id.settings:
+                // TODO: Settings
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -190,6 +188,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void current(View view) {
         Log.d(TAG, "button current");
+        mMap.clear();
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        final MarkerOptions marker = new MarkerOptions().position(mLatLng).title("current location");
+        mMap.addMarker(marker);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 12));
     }
 
@@ -229,5 +234,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void pickTime(View view) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void nearby(View view) {
+        // TODO: show nearby situation
+        startActivity(new Intent(this, NearbySituation.class));
+    }
+
+    public void ok() {
+        finish();
     }
 }
