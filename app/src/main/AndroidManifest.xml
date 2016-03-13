@@ -46,10 +46,16 @@
         <activity
             android:name=".Detail"
             android:label="@string/detail"></activity>
+<<<<<<< 2082ef62fe0861b6a03addb2f54f4e0762abcd23
 
         <service
             android:name=".NotificationIntentService"
             android:exported="false"></service>
+=======
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/setting"></activity>
+>>>>>>> 1. Modify build configuration. 2. Add Setting activity.
     </application>
 
 </manifest>
