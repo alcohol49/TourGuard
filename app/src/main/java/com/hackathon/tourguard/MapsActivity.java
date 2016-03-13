@@ -207,7 +207,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .setContentText("附近有道路施工！ Road Construction Near By!")
                         .setAutoCancel(true);
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, MapsActivity.class);
+        Intent resultIntent = new Intent(this, Detail.class)
+                .putExtra(Detail.KEY_HEAD, "道路施工")
+                .putExtra(Detail.KEY_DISCRIPTION, "忠孝東路施工中，預計完工日期 2016/3/14。")
+                .putExtra(Detail.KEY_SOURCE, "資料來源：交通部");
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
