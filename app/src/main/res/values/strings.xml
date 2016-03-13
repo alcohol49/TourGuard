@@ -3,4 +3,6 @@
     <string name="nearby">Nearby Situation</string>
     <string name="detail">Situation Detail</string>
     <string name="setting">Setting</string>
+    <string name="warning_level_label">Warning Level</string>
+    <string name="warning_level_value">Medium</string>
 </resources>
