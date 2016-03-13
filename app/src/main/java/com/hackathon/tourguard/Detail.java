@@ -46,9 +46,9 @@ public class Detail extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng taipei101 = new LatLng(25.0335, 121.5641);
+        LatLng latLng = new LatLng(mLatLng.latitude, mLatLng.longitude);
         mMap = googleMap;
-        mMap.addMarker(new MarkerOptions().position(taipei101));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(taipei101, 12));
+        mMap.addMarker(new MarkerOptions().position(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
     }
 }

@@ -240,11 +240,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void nearby(View view) {
-        // TODO: show nearby situation
         startActivity(new Intent(this, NearbySituation.class));
     }
 
     public void startGuard(View view) {
+        startService(new Intent(this, NotificationIntentService.class)
+                .setAction(NotificationIntentService.ACTION_FOO));
         finish();
     }
 }
