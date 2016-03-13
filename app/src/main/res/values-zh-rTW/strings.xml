@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TourGuard</string>
+    <string name="nearby">附近事件</string>
+    <string name="detail">事件細節</string>
+    <string name="setting">設定</string>
+    <string name="warning_level_label">警告層級</string>
+    <string name="warning_level_value">Medium</string>
+</resources>
