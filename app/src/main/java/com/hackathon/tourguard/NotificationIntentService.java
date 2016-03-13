@@ -102,7 +102,7 @@ public class NotificationIntentService extends IntentService {
                 Intent resultIntent = new Intent(getApplicationContext(), Detail.class)
                         .putExtra(Detail.KEY_HEAD, "道路施工")
                         .putExtra(Detail.KEY_DISCRIPTION, "忠孝東路施工中，預計完工日期 2016/3/14。")
-                        .putExtra(Detail.KEY_SOURCE, "資料來源：交通部")
+                        .putExtra(Detail.KEY_SOURCE, "交通部")
                         .putExtra(Detail.KEY_LAT, 25.041742)
                         .putExtra(Detail.KEY_LNG, 121.540172);
 
