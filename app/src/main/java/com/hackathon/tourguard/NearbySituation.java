@@ -25,6 +25,16 @@ public class NearbySituation extends ListActivity {
             "交通部",
             "中正國際機場"
     };
+    public double[] mLats = {
+            25.0335,
+            25.0463,
+            25.0763
+    };
+    public double[] mLngs = {
+            121.5641,
+            121.5175,
+            121.2238
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +53,9 @@ public class NearbySituation extends ListActivity {
         Intent intent = new Intent(this, Detail.class);
         intent.putExtra(Detail.KEY_HEAD, mHeads[position])
                 .putExtra(Detail.KEY_DISCRIPTION, mDescriptions[position])
-                .putExtra(Detail.KEY_SOURCE, "資料來源：" + mSources[position]);
+                .putExtra(Detail.KEY_SOURCE, mSources[position])
+                .putExtra(Detail.KEY_LAT, mLats[position])
+                .putExtra(Detail.KEY_LNG, mLngs[position]);
 
         startActivity(intent);
     }

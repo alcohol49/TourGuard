@@ -13,12 +13,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Detail extends AppCompatActivity implements OnMapReadyCallback {
 
-    GoogleMap mMap;
     public static final String KEY_HEAD = "head";
     public static final String KEY_DISCRIPTION = "discription";
     public static final String KEY_SOURCE = "source";
     public static final String KEY_LAT = "lat";
     public static final String KEY_LNG = "lng";
+    GoogleMap mMap;
+    LatLng mLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +30,18 @@ public class Detail extends AppCompatActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        String strHead = getIntent().getExtras().getString(KEY_HEAD);
-        String strDiscription = getIntent().getExtras().getString(KEY_DISCRIPTION);
-        String strSource = getIntent().getExtras().getString(KEY_SOURCE);
+        Bundle bundle = getIntent().getExtras();
+        String strHead = bundle.getString(KEY_HEAD);
+        String strDiscription = bundle.getString(KEY_DISCRIPTION);
+        String strSource = bundle.getString(KEY_SOURCE);
+        mLatLng = new LatLng(bundle.getDouble(KEY_LAT), bundle.getDouble(KEY_LNG));
 
         TextView head = (TextView) findViewById(R.id.head_line);
         head.setText(strHead);
         TextView context = (TextView) findViewById(R.id.context);
         context.setText(strDiscription);
         TextView source = (TextView) findViewById(R.id.source);
-        source.setText(strSource);
+        source.setText("資料來源：" + strSource);
     }
 
     @Override

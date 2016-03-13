@@ -125,7 +125,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         final MarkerOptions marker = new MarkerOptions().position(mLatLng).title("current location");
         mMap.addMarker(marker);
