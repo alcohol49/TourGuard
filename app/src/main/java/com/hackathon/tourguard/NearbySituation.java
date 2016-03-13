@@ -3,11 +3,13 @@ package com.hackathon.tourguard;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class NearbySituation extends ListActivity {
+public class NearbySituation extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     public String[] mHeads = {
             "附近有龍捲風",
@@ -44,12 +46,11 @@ public class NearbySituation extends ListActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mHeads);
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, Detail.class);
         intent.putExtra(Detail.KEY_HEAD, mHeads[position])
                 .putExtra(Detail.KEY_DISCRIPTION, mDescriptions[position])
