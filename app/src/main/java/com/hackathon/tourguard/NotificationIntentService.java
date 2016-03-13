@@ -4,11 +4,12 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -86,12 +87,17 @@ public class NotificationIntentService extends IntentService {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                long[] pattern = {500,500,500,500,500,500,500,500,500};
+                Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.ic_warning_black_24dp)
                                 .setContentTitle("安心上路通知！ TourGuard!")
                                 .setContentText("附近有道路施工！ Road Construction Near By!")
-                                .setAutoCancel(true);
+                                .setAutoCancel(true)
+                                .setVibrate(pattern)
+                                .setSound(alarmSound);
                 // Creates an explicit intent for an Activity in your app
                 Intent resultIntent = new Intent(getApplicationContext(), Detail.class)
                         .putExtra(Detail.KEY_HEAD, "道路施工")
